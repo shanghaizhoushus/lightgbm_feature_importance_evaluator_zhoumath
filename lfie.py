@@ -2,22 +2,21 @@
 """
 Created on Thu Nov 14 21:09:30 2024
 
-@author: 小米
+@author: zhoushus
 """
 
+import pandas as pd
 from sklearn.datasets import load_breast_cancer
 from sklearn.model_selection import train_test_split
-from lightgbm_feature_importance_evaluator_zhoumath.evaluator import FeatureImportanceEvaluator
 from lightgbm import LGBMClassifier
-import pandas as pd
+from lightgbm_feature_importance_evaluator_zhoumath.evaluator import FeatureImportanceEvaluator
 import os
 from joblib import parallel_backend
 import warnings
+#import lightgbm_feature_importance_evaluator_zhoumath as lfiez
 
 warnings.filterwarnings("ignore")
-
 os.environ["JOBLIB_TEMP_FOLDER"] = "D:\\temp"
-
 
 # Load the breast cancer dataset
 data = load_breast_cancer(as_frame=True)
@@ -45,14 +44,15 @@ evaluator = FeatureImportanceEvaluator(
     feature_columns=feature_columns,
     model=model,
     model_params={},
-    importance_method="drop_column",
-    num_boost_round = 8964
+    importance_method="abs_shap",
+    verbose = True,
+    num_boost_round = 8964,
+    early_stopping_rounds = 40
 )
 
 # Evaluate feature importance
 with parallel_backend('loky', n_jobs=-1):
     importance_df = evaluator.evaluate_importance()
-
 
 print("\nFeature Importance (Gain-based):")
 print(importance_df)
@@ -61,3 +61,6 @@ print(importance_df)
 selected_features, sorted_importance = evaluator.get_filtered_features(importance_df)
 print("\nSelected Features:")
 print(selected_features)
+
+X = X[selected_features + ['timestamp']]
+

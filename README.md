@@ -1,9 +1,17 @@
 
-# lightgbm_feature_importance_evaluator_zhoumath
+# LightGBM Feature Importance Evaluator
 
-A Python package for evaluating feature importance in LightGBM models using various methods. This package is designed for LightGBM users but also supports model-agnostic feature importance evaluation methods, such as permutation and drop-column importance.
+LightGBM Feature Importance Evaluator provides advanced tools to analyze and evaluate feature importance in LightGBM models using various methods, including traditional gains, SHAP values, and more. The package also includes enhanced preprocessing and feature filtering utilities.
 
 ---
+
+## Key Features in v0.1.1
+
+- **New Importance Method**: `abs_shap` - Computes mean absolute SHAP values for improved insights.
+- **Enhanced Preprocessing**: Streamlined data filtering by date and handling of missing values via `preprocess_data`.
+- **Feature Selection Utility**: Quickly filter features using `filter_features` based on importance thresholds.
+- **Improved Performance**: Optimized functions for better runtime efficiency and usability.
+- **Additional Parameters**: Support for verbosity and early stopping in LightGBM model training.
 
 ## Key Features
 
@@ -66,9 +74,15 @@ evaluator = FeatureImportanceEvaluator(
     data=data,
     target_column="target",
     timestamp_column="timestamp",
-    feature_columns=["feature1", "feature2", "feature3"],
-    model=LGBMClassifier(),
-    importance_method="gain"  # Choose from 'gain', 'split', 'permutation', 'shap', 'drop_column'
+    feature_columns=feature_columns,
+    model=model,
+    importance_method="abs_shap",  # Use the new `abs_shap` method
+    start_date="2023-01-01",       # Optional: Filter by start date
+    end_date="2023-12-31",         # Optional: Filter by end date
+    missing_values=["NA", None],   # Handle missing values
+    verbose=True,                  # Print logs during processing
+    num_boost_round=1000,          # Number of boosting rounds
+    early_stopping_rounds=50,      # Early stopping patience
 )
 ```
 

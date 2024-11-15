@@ -1,6 +1,6 @@
 # lightgbm_feature_importance_evaluator_zhoumath
 
-A Python package for evaluating feature importance in LightGBM models using various methods. This package is tailored for LightGBM users but also supports model-agnostic feature importance evaluation methods, such as permutation and drop-column importance.
+A Python package for evaluating feature importance in LightGBM models using various methods. LightGBM Feature Importance Evaluator provides advanced tools to analyze and evaluate feature importance in LightGBM models using various methods, including traditional gains, SHAP values, and more. The package also includes enhanced preprocessing and feature filtering utilities.
 
 ---
 
